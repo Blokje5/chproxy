@@ -12,17 +12,22 @@ func TestCodec(t *testing.T) {
 		vuint64 = uint64(5)
 	)
 
-	expectedSize := 4 + 8
+	expectedSize := 1 + 4 + 8
 	
 	codec := NewCodec()
 	
 	buffer := make([]byte, expectedSize)
 	writer := codec.NewWriter(buffer)
 
+	ClientCodeHello.Encode(writer)
 	writer.PutUint32(vuint32)
 	writer.PutUint64(vuint64)
 
 	reader := codec.NewReader(buffer)
+
+	code, err := reader.ReadByte()
+	assert.NoError(t, err)
+	assert.Equal(t, ClientCodeHello, ClientCode(code))
 
 	resuint32, err := reader.ReadUint32()
 	assert.NoError(t, err)

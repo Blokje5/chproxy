@@ -18,6 +18,13 @@ func NewWriter(buf []byte) *Writer {
 	}
 }
 
+func (w *Writer) PutByte(v byte) error {
+	w.buf[w.n] = v
+	w.n += 1
+
+	return nil
+}
+
 func (w *Writer) PutUint32(v uint32) error {
 	binary.LittleEndian.PutUint32(w.buf[w.n:], v)
 	w.n += Uint32Size

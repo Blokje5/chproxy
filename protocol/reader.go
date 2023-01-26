@@ -28,6 +28,17 @@ func (r *Reader) ensureCanReadN(n int) error {
 	return nil
 }
 
+func (r *Reader) ReadByte() (byte, error) {
+	err := r.ensureCanReadN(1)
+	if err != nil {
+		return 0, err
+	}
+
+	v := r.buf[r.n]
+	r.n += 1
+
+	return v, nil
+}
 
 func (r *Reader) ReadUint32() (uint32, error) {
 	err := r.ensureCanReadN(Uint32Size)
@@ -59,6 +70,10 @@ func (r *Reader) ReadString() (string, error) {
 	size, err := binary.ReadUvarint(reader)
 	if err != nil {
 		return "", err
+	}
+
+	if size > MaxStringSize {
+		return "", ErrStringExceedsMaximum
 	}
 
 	// calculate read bytes

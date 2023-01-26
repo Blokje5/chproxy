@@ -3,6 +3,7 @@ package protocol
 const (
 	Uint32Size = 4
 	Uint64Size = 8
+	MaxStringSize = 1024 * 1024 * 10
 )
 
 const (
