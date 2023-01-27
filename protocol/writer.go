@@ -6,14 +6,14 @@ import (
 )
 
 type Writer struct {
-	buf []byte
-	n int
+	buf     []byte
+	n       int
 	maxSize int
 }
-	
+
 func NewWriter(buf []byte) *Writer {
 	return &Writer{
-		buf: buf,
+		buf:     buf,
 		maxSize: len(buf),
 	}
 }

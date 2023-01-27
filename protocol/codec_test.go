@@ -13,9 +13,9 @@ func TestCodec(t *testing.T) {
 	)
 
 	expectedSize := 1 + 4 + 8
-	
+
 	codec := NewCodec()
-	
+
 	buffer := make([]byte, expectedSize)
 	writer := codec.NewWriter(buffer)
 

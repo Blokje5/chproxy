@@ -1,8 +1,8 @@
 package protocol
 
 const (
-	Uint32Size = 4
-	Uint64Size = 8
+	Uint32Size    = 4
+	Uint64Size    = 8
 	MaxStringSize = 1024 * 1024 * 10
 )
 
@@ -22,7 +22,8 @@ func NewCodec() Codec {
 
 func (c *Codec) NewReader(buf []byte) *Reader {
 	switch c.version {
-	case ClickhouseBinaryVersionV1: return NewReader(buf)
+	case ClickhouseBinaryVersionV1:
+		return NewReader(buf)
 	}
 
 	return nil
@@ -30,7 +31,8 @@ func (c *Codec) NewReader(buf []byte) *Reader {
 
 func (c *Codec) NewWriter(buf []byte) *Writer {
 	switch c.version {
-	case ClickhouseBinaryVersionV1: return NewWriter(buf)
+	case ClickhouseBinaryVersionV1:
+		return NewWriter(buf)
 	}
 
 	return nil

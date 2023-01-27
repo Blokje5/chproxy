@@ -8,14 +8,14 @@ import (
 )
 
 type Reader struct {
-	buf []byte
-	n int
+	buf     []byte
+	n       int
 	maxSize int
 }
 
 func NewReader(buf []byte) *Reader {
 	return &Reader{
-		buf: buf,
+		buf:     buf,
 		maxSize: len(buf),
 	}
 }
@@ -57,7 +57,7 @@ func (r *Reader) ReadUint64() (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	
+
 	v := binary.LittleEndian.Uint64(r.buf[r.n:])
 	r.n += 8
 
@@ -82,7 +82,7 @@ func (r *Reader) ReadString() (string, error) {
 	buf := make([]byte, size)
 
 	n, err := io.ReadFull(reader, buf)
-	if  err != nil {
+	if err != nil {
 		if errors.Is(err, io.EOF) {
 			return "", ErrUnexpectedEOF
 		}

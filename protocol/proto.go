@@ -22,11 +22,30 @@ const (
 	ClientCodeCancel          ClientCode = 3
 	ClientCodePing            ClientCode = 4
 	ClientTablesStatusRequest ClientCode = 5
-	ClientKeepAlive ClientCode = 6
-	ClientScalar ClientCode = 7
-
+	ClientKeepAlive           ClientCode = 6
+	ClientScalar              ClientCode = 7
 )
 
 func (c ClientCode) Encode(w *Writer) {
-	 w.PutByte(byte(c)) 
+	w.PutByte(byte(c))
+}
+
+// Server Packet Types
+// See: https://github.com/ClickHouse/ClickHouse/blob/master/src/Core/Protocol.h
+type ServerCode byte
+
+const (
+	ServerCodeHello       ServerCode = 0
+	ServerCodeData        ServerCode = 1
+	ServerCodeException   ServerCode = 2
+	ServerCodeProgress    ServerCode = 3
+	ServerCodePong        ServerCode = 4
+	ServerCodeEndOfStream ServerCode = 5
+	ServerCodeProfileInfo ServerCode = 6
+	ServerCodeTotals      ServerCode = 7
+	ServerCodeExtremes    ServerCode = 8
+)
+
+func (c ServerCode) Encode(w *Writer) {
+	w.PutByte(byte(c))
 }
