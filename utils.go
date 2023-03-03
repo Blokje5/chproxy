@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/contentsquare/chproxy/chdecompressor"
+	"github.com/contentsquare/chproxy/http/headers"
 	"github.com/contentsquare/chproxy/log"
 )
 
@@ -240,7 +241,7 @@ func sortHeader(header string) string {
 }
 
 func getDecompressor(req *http.Request) decompressor {
-	if req.Header.Get("Content-Encoding") == "gzip" {
+	if req.Header.Get(headers.ContentEncoding) == headers.ContentEncodingGZIP {
 		return gzipDecompressor{}
 	}
 	if req.URL.Query().Get("decompress") == "1" {

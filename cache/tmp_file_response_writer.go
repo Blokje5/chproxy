@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+
+	"github.com/contentsquare/chproxy/http/headers"
 )
 
 // TmpFileResponseWriter caches Clickhouse response.
@@ -87,7 +89,7 @@ func (rw *TmpFileResponseWriter) captureHeaders() error {
 
 	ct := h.Get("Content-Type")
 
-	ce := h.Get("Content-Encoding")
+	ce := h.Get(headers.ContentEncoding)
 
 	rw.contentEncoding = ce
 	rw.contentType = ct

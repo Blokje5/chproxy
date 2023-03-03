@@ -6,6 +6,12 @@ import (
 	"net/http"
 	"os"
 	"testing"
+
+	"github.com/contentsquare/chproxy/http/headers"
+)
+
+const (
+	FakeContentEncoding = "content-encoding-1"
 )
 
 type FakeResponse struct {
@@ -20,7 +26,7 @@ func newFakeResponse() *FakeResponse {
 		headers: make(http.Header),
 	}
 	resp.headers.Set("Content-Type", "content-type-1")
-	resp.headers.Set("Content-Encoding", "content-encoding-1")
+	resp.headers.Set(headers.ContentEncoding, FakeContentEncoding)
 
 	return resp
 }
@@ -117,8 +123,8 @@ func TestWriteThenReadHeader(t *testing.T) {
 	if cType != "content-type-1" {
 		t.Fatalf("wrong value for contentType, got %s, expected %s", cType, "content-type-1")
 	}
-	if cEncoding != "content-encoding-1" {
-		t.Fatalf("wrong value for contentEncoding, got %s, expected %s", cEncoding, "content-encoding-1")
+	if cEncoding != FakeContentEncoding {
+		t.Fatalf("wrong value for contentEncoding, got %s, expected %s", cEncoding, FakeContentEncoding)
 	}
 	if cLength != 28 {
 		t.Fatalf("wrong value for contentLength, got %d, expected %d", cLength, 28)

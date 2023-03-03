@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/contentsquare/chproxy/cache"
+	"github.com/contentsquare/chproxy/http/headers"
 	"github.com/contentsquare/chproxy/log"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -51,19 +52,18 @@ func RespondWithData(rw http.ResponseWriter, data io.Reader, metadata cache.Cont
 	}
 
 	if len(metadata.Encoding) > 0 {
-		h.Set("Content-Encoding", metadata.Encoding)
+		h.Set(headers.ContentEncoding, metadata.Encoding)
 	}
 
 	h.Set("Content-Length", fmt.Sprintf("%d", metadata.Length))
 	if ttl > 0 {
-		expireSeconds := uint(ttl / time.Second)
-		h.Set("Cache-Control", fmt.Sprintf("max-age=%d", expireSeconds))
+		h.Set(headers.CacheControl, headers.CacheControValue(ttl))
 	}
 
 	if cacheHit {
-		h.Set("X-Cache", "HIT")
+		h.Set(headers.XCache, headers.XCacheHit)
 	} else {
-		h.Set("X-Cache", "MISS")
+		h.Set(headers.XCache, headers.XCacheMiss)
 	}
 
 	rw.WriteHeader(statusCode)

@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"testing"
+
+	"github.com/contentsquare/chproxy/http/headers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSkipLeadingComments(t *testing.T) {
@@ -133,7 +135,7 @@ func TestGetQuerySnippetGzipped(t *testing.T) {
 	}
 	zw.Close()
 	req, err := http.NewRequest("POST", "http://127.0.0.1:9090", &buf)
-	req.Header.Set("Content-Encoding", "gzip")
+	req.Header.Set(headers.ContentEncoding, headers.ContentEncodingGZIP)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,7 +155,7 @@ func TestGetFullQueryGzipped(t *testing.T) {
 	}
 	zw.Close()
 	req, err := http.NewRequest("POST", "http://127.0.0.1:9090", &buf)
-	req.Header.Set("Content-Encoding", "gzip")
+	req.Header.Set(headers.ContentEncoding, headers.ContentEncodingGZIP)
 	if err != nil {
 		t.Fatal(err)
 	}

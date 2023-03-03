@@ -22,6 +22,7 @@ import (
 	"github.com/alicebob/miniredis/v2"
 	"github.com/contentsquare/chproxy/cache"
 	"github.com/contentsquare/chproxy/config"
+	"github.com/contentsquare/chproxy/http/headers"
 	"github.com/contentsquare/chproxy/log"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/stretchr/testify/assert"
@@ -99,7 +100,7 @@ func TestServe(t *testing.T) {
 					t.Fatalf("unexpected status code: %d; expected: %d", resp.StatusCode, http.StatusOK)
 				}
 				checkResponse(t, resp.Body, expectedOkResp)
-				checkHeader(t, resp, "X-Cache", "MISS")
+				checkHeader(t, resp, headers.XCache, headers.XCacheMiss)
 
 				// check cached response
 				credHash, _ := calcCredentialHash("default", "qwerty")
@@ -126,7 +127,7 @@ func TestServe(t *testing.T) {
 					t.Fatalf("unexpected error while getting response from cache: %s", err)
 				}
 				checkResponse(t, rw.Body, expectedOkResp)
-				checkHeader(t, rw.Result(), "X-Cache", "HIT")
+				checkHeader(t, rw.Result(), headers.XCache, headers.XCacheHit)
 			},
 			startTLS,
 		},
